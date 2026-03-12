@@ -25,9 +25,6 @@
         <option value="sacrifice">変則形１（英雄的自己犠牲）</option>
         <option value="anger">変則形２（唐突なマジギレ）</option>
         <option value="responsibility">変則形３（責任転嫁＆自爆）</option>
-        <option value="loop_sleep">追加：欲しがりループ強制終了（んんんん！）</option>
-        <option value="bertholdt_counter">追加：定型破りへの逆ギレ（じゃあ教えてくださいよ！）</option>
-        <option value="revival">追加：強制復活の呪文</option>
     </select>
 
     <div id="input-area"></div>
@@ -65,21 +62,6 @@
                 {id: "arg2", label: "原因となった行動", default: "壁を破壊した"}
             ],
             generate: (args) => `「${args[0]}は俺の命令にしたがっただけだ」\n「俺たちがあの日…${args[1]}からだ…」`
-        },
-        loop_sleep: {
-            fields: [{id: "arg1", label: "ボコボコにしてくる相手", default: "ジャン"}],
-            generate: (args) => `（${args[0]}からの物理・精神攻撃）\n「待っ———」\n「んんんん んんんん」\n\n（…からの安眠）`
-        },
-        bertholdt_counter: {
-            fields: [
-                {id: "arg1", label: "相手からのツッコミ", default: "ダハハハハッ！また同じ定型を垂れたな！"},
-                {id: "arg2", label: "ループしている現象", default: "欲しがりループ"}
-            ],
-            generate: (args) => `相手「${args[0]}」\n\n「じゃあ教えてくださいよ！どうすればこの${args[1]}を止められるんですか！」`
-        },
-        revival: {
-            fields: [{id: "arg1", label: "叫ぶ名前", default: "ライナ"}],
-            generate: (args) => `「${args[0]}アアアアアアア！！！」\n\n（※相手からの呼び出しにより、どんなに不利な状況でも強制復活します）`
         }
     };
 
