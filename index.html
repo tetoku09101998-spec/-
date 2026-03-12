@@ -28,6 +28,7 @@
         <option value="creepy">追加：何度見ても美しい構文</option>
         <option value="regret">追加：後悔と謝罪の放棄（あの日…もし引き返していたら）</option>
         <option value="reveal">追加：唐突なカミングアウト（俺が鎧の巨人で…）</option>
+        <option value="decisive">追加：決戦の合図（やるんだな！？今…！ここで！）</option>
     </select>
 
     <div id="input-area"></div>
@@ -89,6 +90,13 @@
                 {id: "arg2", label: "相棒の正体", default: "超大型巨人"}
             ],
             generate: (args) => `「俺が${args[0]}で、こいつが${args[1]}ってやつだ。」`
+        },
+        decisive: {
+            fields: [
+                {id: "arg1", label: "相棒のセリフ", default: "やるんだな！？今…！ここで！"},
+                {id: "arg2", label: "自分の決断", default: "ああ！！勝負は今！！ここで決める！！"}
+            ],
+            generate: (args) => `「${args[0]}」\n「${args[1]}」`
         }
     };
 
