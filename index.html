@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>総合・ライナー構文ジェネレーター</title>
+<style>
+    body { font-family: sans-serif; margin: 20px; background-color: #f4f4f9; }
+    .container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
+    label { display: block; margin-top: 15px; font-size: 0.9em; font-weight: bold; color: #333; }
+    select, input[type="text"] { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+    button { background: #b30000; color: white; border: none; padding: 12px 20px; cursor: pointer; border-radius: 4px; font-weight: bold; margin-top: 25px; width: 100%; font-size: 1.1em; }
+    button:hover { background: #800000; }
+    .result { margin-top: 20px; padding: 15px; background: #e9ecef; border-left: 5px solid #b30000; min-height: 4em; white-space: pre-wrap; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h3 style="text-align: center; color: #b30000;">総合・ライナー構文ジェネレーター</h3>
+    
+    <label>構文のパターン:</label>
+    <select id="pattern" onchange="updateFields()">
+        <option value="affirm">基本形（全肯定からの自責ループ）</option>
+        <option value="apology">謝罪カウンター（時代や環境のせいじゃなくて…）</option>
+        <option value="sacrifice">変則形１（英雄的自己犠牲）</option>
+        <option value="anger">変則形２（唐突なマジギレ）</option>
+        <option value="responsibility">変則形３（責任転嫁＆自爆）</option>
+    </select>
+
+    <div id="input-area"></div>
+
+    <button onclick="generateText()">出力するんだな！？今…！ここで！</button>
+
+    <div class="result" id="output">（ここに結果が出ます）</div>
+</div>
+
+<script>
+    const templates = {
+        affirm: {
+            fields: [{id: "arg1", label: "相手の名前", default: "ガリアード"}],
+            generate: (args) => `「その通りだ${args[0]} お前の言ってることは全て正しい」\n「…すまない」\n「あぁ…そうだ…あぁ」\n「あぁ それでいい わかっている…」\n「もう嫌なんだ 自分が… 俺を殺してくれ もう消えたい」`
+        },
+        apology: {
+            fields: [
+                {id: "arg1", label: "相手の名前", default: "エレン"},
+                {id: "arg2", label: "言い訳", default: "時代や環境"},
+                {id: "arg3", label: "悲劇的な出来事", default: "お前の母親が巨人に食われた"}
+            ],
+            generate: (args) => `「違う!!違うんだ${args[0]}…!!」\n「…あれは…${args[1]}のせいじゃなくて俺が悪いんだよ。${args[2]}のは俺のせいだ!!」\n「許さないでくれ 俺は… 本当にどうしようもない」`
+        },
+        sacrifice: {
+            fields: [{id: "arg1", label: "引き受ける場所・役割", default: "ここは"}],
+            generate: (args) => `「${args[0]}俺が!!」\n「俺は務めを果たした もう…任せても…いいよな」`
+        },
+        anger: {
+            fields: [{id: "arg1", label: "冒涜されたもの", default: "九つの巨人を継承する名誉"}],
+            generate: (args) => `「今…お前…何って言った？」\n「"${args[0]}"を冒涜したのか？」`
+        },
+        responsibility: {
+            fields: [
+                {id: "arg1", label: "共犯者", default: "アニ"},
+                {id: "arg2", label: "原因となった行動", default: "壁を破壊した"}
+            ],
+            generate: (args) => `「${args[0]}は俺の命令にしたがっただけだ」\n「俺たちがあの日…${args[1]}からだ…」`
+        }
+    };
+
+    function updateFields() {
+        const pattern = document.getElementById('pattern').value;
+        const config = templates[pattern];
+        const inputArea = document.getElementById('input-area');
+        inputArea.innerHTML = '';
+        
+        config.fields.forEach((field, index) => {
+            inputArea.innerHTML += `<label>${field.label}:</label><input type="text" id="input_${index}" value="${field.default}">`;
+        });
+    }
+
+    function generateText() {
+        const pattern = document.getElementById('pattern').value;
+        const config = templates[pattern];
+        const args = config.fields.map((_, index) => document.getElementById(`input_${index}`).value);
+        document.getElementById('output').innerText = config.generate(args);
+    }
+
+    // 初期化
+    updateFields();
+</script>
+
+</body>
+</html>
