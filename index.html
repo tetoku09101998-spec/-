@@ -27,6 +27,7 @@
         <option value="responsibility">変則形３（責任転嫁＆自爆）</option>
         <option value="creepy">追加：何度見ても美しい構文</option>
         <option value="regret">追加：後悔と謝罪の放棄（あの日…もし引き返していたら）</option>
+        <option value="reveal">追加：唐突なカミングアウト（俺が鎧の巨人で…）</option>
     </select>
 
     <div id="input-area"></div>
@@ -77,10 +78,17 @@
             fields: [
                 {id: "arg1", label: "分岐点となった行動", default: "引き返していたら"},
                 {id: "arg2", label: "巻き込んだ相手", default: "お前もベルトルトも"},
-                {id: "arg3", label: "失われた未来", default: "故郷に帰って家族にあえたのに"},
+                {id: "arg3", label: "失われた未来", default: "故郷に帰って家族に会えたのに"},
                 {id: "arg4", label: "放棄する行動", default: "謝る"}
             ],
             generate: (args) => `「あの日…もし${args[0]}、${args[1]}…${args[2]}…${args[3]}ことすらおこがましく思える」`
+        },
+        reveal: {
+            fields: [
+                {id: "arg1", label: "自分の正体", default: "鎧の巨人"},
+                {id: "arg2", label: "相棒の正体", default: "超大型巨人"}
+            ],
+            generate: (args) => `「俺が${args[0]}で、こいつが${args[1]}ってやつだ。」`
         }
     };
 
