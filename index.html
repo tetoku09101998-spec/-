@@ -8,8 +8,12 @@
     .container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
     label { display: block; margin-top: 15px; font-size: 0.9em; font-weight: bold; color: #333; }
     select, input[type="text"] { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
-    button { background: #b30000; color: white; border: none; padding: 12px 20px; cursor: pointer; border-radius: 4px; font-weight: bold; margin-top: 25px; width: 100%; font-size: 1.1em; }
-    button:hover { background: #800000; }
+    .btn-group { display: flex; gap: 10px; margin-top: 25px; }
+    button { color: white; border: none; padding: 12px 20px; cursor: pointer; border-radius: 4px; font-weight: bold; width: 100%; font-size: 1em; transition: 0.2s; }
+    #generateBtn { background: #b30000; }
+    #generateBtn:hover { background: #800000; }
+    #copyBtn { background: #333; }
+    #copyBtn:hover { background: #555; }
     .result { margin-top: 20px; padding: 15px; background: #e9ecef; border-left: 5px solid #b30000; min-height: 4em; white-space: pre-wrap; line-height: 1.6; }
 </style>
 </head>
@@ -33,7 +37,10 @@
 
     <div id="input-area"></div>
 
-    <button onclick="generateText()">出力するんだな！？今…！ここで！</button>
+    <div class="btn-group">
+        <button id="generateBtn" onclick="generateText()">出力するんだな！？</button>
+        <button id="copyBtn" onclick="copyToClipboard()">結果をコピー</button>
+    </div>
 
     <div class="result" id="output">（ここに結果が出ます）</div>
 </div>
@@ -42,7 +49,7 @@
     const templates = {
         affirm: {
             fields: [{id: "arg1", label: "相手の名前", default: "ガリアード"}],
-            generate: (args) => `「その通りだ${args[0]} お前の言ってることは全て正しい」\n「…すまない」\n「あぁ…そうだ…あぁ」\n「あぁ それでいい わかっている…」\n「もう嫌なんだ 自分が… 俺を殺してくれ もう消えたい」`
+            generate: (args) => `その通りだ${args[0]} お前の言ってることは全て正しい\n…すまない\nあぁ…そうだ…あぁ\nあぁ それでいい わかっている…\nもう嫌なんだ 自分が… 俺を殺してくれ もう消えたい`
         },
         apology: {
             fields: [
@@ -50,22 +57,22 @@
                 {id: "arg2", label: "言い訳", default: "時代や環境"},
                 {id: "arg3", label: "悲劇的な出来事", default: "お前の母親が巨人に食われた"}
             ],
-            generate: (args) => `「違う!!違うんだ${args[0]}…!!」\n「…あれは…${args[1]}のせいじゃなくて俺が悪いんだよ。${args[2]}のは俺のせいだ!!」\n「許さないでくれ 俺は… 本当にどうしようもない」`
+            generate: (args) => `違う!!違うんだ${args[0]}…!!\n…あれは…${args[1]}のせいじゃなくて俺が悪いんだよ。${args[2]}のは俺のせいだ!!\n許さないでくれ 俺は… 本当にどうしようもない`
         },
         sacrifice: {
             fields: [{id: "arg1", label: "引き受ける場所・役割", default: "ここは"}],
-            generate: (args) => `「${args[0]}俺が!!」\n「俺は務めを果たした もう…任せても…いいよな」`
+            generate: (args) => `${args[0]}俺が!!\n俺は務めを果たした もう…任せても…いいよな`
         },
         anger: {
             fields: [{id: "arg1", label: "冒涜されたもの", default: "九つの巨人を継承する名誉"}],
-            generate: (args) => `「今…お前…何って言った？」\n「"${args[0]}"を冒涜したのか？」`
+            generate: (args) => `今…お前…何って言った？\n"${args[0]}"を冒涜したのか？`
         },
         responsibility: {
             fields: [
                 {id: "arg1", label: "共犯者", default: "アニ"},
                 {id: "arg2", label: "原因となった行動", default: "壁を破壊した"}
             ],
-            generate: (args) => `「${args[0]}は俺の命令にしたがっただけだ」\n「俺たちがあの日…${args[1]}からだ…」`
+            generate: (args) => `${args[0]}は俺の命令にしたがっただけだ\n俺たちがあの日…${args[1]}からだ…`
         },
         creepy: {
             fields: [
@@ -73,7 +80,7 @@
                 {id: "arg2", label: "対象（何を）", default: "筆跡"},
                 {id: "arg3", label: "追加情報", default: "いい匂いもする"}
             ],
-            generate: (args) => `「何度見ても${args[0]}の${args[1]}は美しいな…${args[2]}」`
+            generate: (args) => `何度見ても${args[0]}の${args[1]}は美しいな…${args[2]}`
         },
         regret: {
             fields: [
@@ -82,21 +89,21 @@
                 {id: "arg3", label: "失われた未来", default: "故郷に帰って家族に会えたのに"},
                 {id: "arg4", label: "放棄する行動", default: "謝る"}
             ],
-            generate: (args) => `「あの日…もし${args[0]}、${args[1]}…${args[2]}…${args[3]}ことすらおこがましく思える」`
+            generate: (args) => `あの日…もし${args[0]}、${args[1]}…${args[2]}…${args[3]}ことすらおこがましく思える`
         },
         reveal: {
             fields: [
                 {id: "arg1", label: "自分の正体", default: "鎧の巨人"},
                 {id: "arg2", label: "相棒の正体", default: "超大型巨人"}
             ],
-            generate: (args) => `「俺が${args[0]}で、こいつが${args[1]}ってやつだ。」`
+            generate: (args) => `俺が${args[0]}で、こいつが${args[1]}ってやつだ。`
         },
         decisive: {
             fields: [
                 {id: "arg1", label: "相棒のセリフ", default: "やるんだな！？今…！ここで！"},
-                {id: "arg2", label: "自分の決断", default: "ああ！！勝負は今！！ここで決める！！"}
+                {id: "arg2", label: "決めること", default: "勝負"}
             ],
-            generate: (args) => `「${args[0]}」\n「${args[1]}」`
+            generate: (args) => `${args[0]}\nああ！！${args[1]}は今！！ここで決める！！`
         }
     };
 
@@ -116,6 +123,21 @@
         const config = templates[pattern];
         const args = config.fields.map((_, index) => document.getElementById(`input_${index}`).value);
         document.getElementById('output').innerText = config.generate(args);
+        
+        // 生成時にコピーボタンのテキストを元に戻す
+        document.getElementById('copyBtn').innerText = '結果をコピー';
+    }
+
+    function copyToClipboard() {
+        const text = document.getElementById('output').innerText;
+        if (text === '（ここに結果が出ます）') return; // 初期状態はコピーしない
+        
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = document.getElementById('copyBtn');
+            btn.innerText = 'コピー完了！';
+        }).catch(err => {
+            alert('コピーに失敗したわ。手動でやりなさい。');
+        });
     }
 
     // 初期化
