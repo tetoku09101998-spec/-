@@ -25,7 +25,7 @@
         <option value="sacrifice">変則形１（英雄的自己犠牲）</option>
         <option value="anger">変則形２（唐突なマジギレ）</option>
         <option value="responsibility">変則形３（責任転嫁＆自爆）</option>
-        <option value="creepy">追加：何度見ても美しい構文（変質者ムーブ）</option>
+        <option value="creepy">追加：何度見ても美しい構文</option>
     </select>
 
     <div id="input-area"></div>
@@ -68,9 +68,9 @@
             fields: [
                 {id: "arg1", label: "人名（誰の）", default: "ヒストリア"},
                 {id: "arg2", label: "対象（何を）", default: "筆跡"},
-                {id: "arg3", label: "追加情報（ドン引き要素）", default: "いい匂いもする"}
+                {id: "arg3", label: "追加情報", default: "いい匂いもする"}
             ],
-            generate: (args) => `「何度見ても${args[0]}の${args[1]}は美しいな…」\n「${args[2]}」`
+            generate: (args) => `「何度見ても${args[0]}の${args[1]}は美しいな…${args[2]}」`
         }
     };
 
