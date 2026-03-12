@@ -26,6 +26,7 @@
         <option value="anger">変則形２（唐突なマジギレ）</option>
         <option value="responsibility">変則形３（責任転嫁＆自爆）</option>
         <option value="creepy">追加：何度見ても美しい構文</option>
+        <option value="regret">追加：後悔と謝罪の放棄（あの日…もし引き返していたら）</option>
     </select>
 
     <div id="input-area"></div>
@@ -71,6 +72,15 @@
                 {id: "arg3", label: "追加情報", default: "いい匂いもする"}
             ],
             generate: (args) => `「何度見ても${args[0]}の${args[1]}は美しいな…${args[2]}」`
+        },
+        regret: {
+            fields: [
+                {id: "arg1", label: "分岐点となった行動", default: "引き返していたら"},
+                {id: "arg2", label: "巻き込んだ相手", default: "お前もベルトルトも"},
+                {id: "arg3", label: "失われた未来", default: "故郷に帰って家族にあえたのに"},
+                {id: "arg4", label: "放棄する行動", default: "謝る"}
+            ],
+            generate: (args) => `「あの日…もし${args[0]}、${args[1]}…${args[2]}…${args[3]}ことすらおこがましく思える」`
         }
     };
 
