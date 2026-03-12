@@ -100,10 +100,9 @@
         },
         decisive: {
             fields: [
-                {id: "arg1", label: "相棒のセリフ", default: "やるんだな！？今…！ここで！"},
-                {id: "arg2", label: "決めること", default: "勝負"}
+                {id: "arg1", label: "決めること（●●）", default: "勝負"}
             ],
-            generate: (args) => `${args[0]}\nああ！！${args[1]}は今！！ここで決める！！`
+            generate: (args) => `やるんだな！？今…！ここで！\nああ！！${args[0]}は今！！ここで決める！！`
         }
     };
 
